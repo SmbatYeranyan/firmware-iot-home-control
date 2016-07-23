@@ -1,4 +1,4 @@
-# android-iot-home-control
+# firmware-iot-home-control
 
 **TL:DR**
 
