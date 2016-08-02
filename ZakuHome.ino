@@ -361,10 +361,32 @@ void webSocketLoop(){
       }else{
         Serial.print("Received data: ");
         Serial.println(data);
-        const char* string1 = data.c_str();
-        int sum = atoi(string1);
-        //Using the rc-switch library to send the command over 433mhz
-        mySwitch.send(sum, 24);
+        const char* incomingString = data.c_str();
+        Serial.println("here1");
+        if (data.charAt(0)=='D' && data.charAt(1)== 'I' && data.charAt(2)=='P'){
+          Serial.println("here2");
+            char left[5];
+            memcpy( left, &incomingString[4], 5 );
+            left[5] ='\0';
+            char right[5];
+            memcpy( right, &incomingString[9], 5 );
+            right[5] ='\0';
+            Serial.println("here7");
+            Serial.println(left);
+             Serial.println(right);
+            if (data.charAt(3) == '1'){
+              Serial.println("here7");
+              mySwitch.switchOn(left, right);
+              Serial.println("here1");
+            }
+
+            if (data.charAt(3) == '0'){
+             mySwitch.switchOff(left, right);
+            }
+        }else{
+            int sum = atoi(incomingString);
+            mySwitch.send(sum, 24);
+        }
       }
     }
   } else {
